@@ -268,11 +268,8 @@ class MoPKL(nn.Module):
             feat.append(feats)
 
         feats = torch.stack(feat, 1) 
-        B = feats.shape[0] 
-        T = feats.shape[1]
-        N = feats.shape[2]
-        W = feats.shape[3]
-        H = feats.shape[4]
+
+        B, T, N, W, H = feats.shape  
         
         feats_up = self.convT3d(feats) 
         motion_adj = self.motion_graph(feats_up)
