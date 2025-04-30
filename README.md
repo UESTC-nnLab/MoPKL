@@ -71,8 +71,8 @@ There are three embedded representations in this file: `emb_train_ITSDT.pkl`, `e
 
 description = pickle.load(open('/home/MoPKL/emb_train_ITSDT.pkl', 'rb'))
 embeddings = np.array(list(description.values()))
-        self.cap_idx =list(description.keys())
-        self.motion_cap_idx = np.array(list(description.values()))
+self.cap_idx =list(description.keys())
+self.motion_cap_idx = np.array(list(description.values()))
 ```
 - In addition, you need to modify the dimension of `text_input_dim` in the network file `MoPKL.py`:  
 ```python
@@ -92,8 +92,8 @@ There are three embedded representations in this file: `motion_relation_ITSDT.pk
 
 description = pickle.load(open('/home/MoPKL/motion_relation_ITSDT.pkl', 'rb'))
 relations = np.array(list(relation.values()))
-        self.re_idx = list(relation.keys())
-        self.motion_re_idx = np.array(list(relation.values()))
+self.re_idx = list(relation.keys())
+self.motion_re_idx = np.array(list(relation.values()))
 ```
 
 
