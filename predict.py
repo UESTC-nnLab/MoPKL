@@ -19,7 +19,7 @@ from utils.utils_bbox import decode_outputs, non_max_suppression
 class Pred_vid(object):
     _defaults = {
         
-        "model_path"        : '/home/MoPKL/logs/pre-trained_weights_ITSDT.pth',
+        "model_path"        : '/home/chenshengjia/iMoPKL/logs/ITSDT-80.67-90.35/80.67_90.35_ep014-loss3.115-val_loss4.033.pth',
         "classes_path"      : 'model_data/classes.txt',
         "input_shape"       : [512, 512],
         "phi"               : 's',
@@ -79,7 +79,6 @@ class Pred_vid(object):
             images = torch.from_numpy(image_data)
             if self.cuda:
                 images = images.cuda()
- 
             outputs = self.net(images)
             outputs = decode_outputs(outputs, self.input_shape)
             outputs = non_max_suppression(outputs, self.num_classes, self.input_shape, 
@@ -156,6 +155,7 @@ if __name__ == "__main__":
     
     # mode = "video"
     mode = "predict"
+    
    
     crop            = False
     count           = False
@@ -176,7 +176,7 @@ if __name__ == "__main__":
     if mode == "video":
         import numpy as np
         from tqdm import tqdm
-        dir_path = '/home/public/DMIST/images/test60/data6/'
+        dir_path = '/home/public/ITSDT/images/58'
         images = os.listdir(dir_path)
         for file_name in os.listdir(dir_path):
             if file_name.endswith('.ipynb_checkpoints'):
@@ -200,6 +200,7 @@ if __name__ == "__main__":
                 break 
         outfile.release()
         cv2.destroyAllWindows()
+    
 
     
     else:

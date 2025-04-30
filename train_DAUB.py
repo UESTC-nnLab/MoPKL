@@ -13,7 +13,7 @@ from nets.training import (ModelEMA, YOLOLoss, get_lr_scheduler,
                                 set_optimizer_lr, weights_init)
 from utils.callbacks import EvalCallback, LossHistory
 from utils.dataloader import YoloDataset
-from utils.dataloader_for_ITSDT import seqDataset, dataset_collate
+from utils.dataloader_for_DAUB import seqDataset, dataset_collate
 from utils.utils import get_classes, show_config
 from utils.utils_fit import fit_one_epoch
 
@@ -50,8 +50,9 @@ if __name__ == "__main__":
     eval_flag           = True
     eval_period         = 100
     num_workers         = 4
-    train_annotation_path = '/home/public/ITSDT/coco_train_ITSDT.txt'
-    val_annotation_path = '/home/public/ITSDT/coco_val_ITSDT.txt'
+    train_annotation_path = '/home/public/DAUB/train.txt'
+    val_annotation_path = '/home/public/DAUB/val.txt'
+    
     
     ngpus_per_node  = torch.cuda.device_count()
     

@@ -13,7 +13,7 @@ from nets.training import (ModelEMA, YOLOLoss, get_lr_scheduler,
                                 set_optimizer_lr, weights_init)
 from utils.callbacks import EvalCallback, LossHistory
 from utils.dataloader import YoloDataset
-from utils.dataloader_for_ITSDT import seqDataset, dataset_collate
+from utils.dataloader_for_IRDSTH import seqDataset, dataset_collate
 from utils.utils import get_classes, show_config
 from utils.utils_fit import fit_one_epoch
 
@@ -39,9 +39,9 @@ if __name__ == "__main__":
     UnFreeze_Epoch      = 100
     Unfreeze_batch_size = 4
     Freeze_Train        = False
-    Init_lr             = 1e-2 
+    Init_lr             = 1e-2
     Min_lr              = Init_lr * 0.01
-    optimizer_type      = "sgd" 
+    optimizer_type      = "sgd"
     momentum            = 0.937
     weight_decay        = 5e-4
     lr_decay_type       = "cos"
@@ -50,8 +50,8 @@ if __name__ == "__main__":
     eval_flag           = True
     eval_period         = 100
     num_workers         = 4
-    train_annotation_path = '/home/public/ITSDT/coco_train_ITSDT.txt'
-    val_annotation_path = '/home/public/ITSDT/coco_val_ITSDT.txt'
+    train_annotation_path = '/home/public/IRDST-H/train.txt'
+    val_annotation_path = '/home/public/IRDST-H/val.txt' 
     
     ngpus_per_node  = torch.cuda.device_count()
     

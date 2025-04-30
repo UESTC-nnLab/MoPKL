@@ -14,23 +14,26 @@ from tqdm import tqdm
 from utils.utils import cvtColor, get_classes, preprocess_input, resize_image
 from utils.utils_bbox import decode_outputs, non_max_suppression
 
-map_mode            = 0 
+map_mode            = 0
 cocoGt_path         = '/home/public/ITSDT/instances_test2017.json'
 dataset_img_path    = '/home/public/ITSDT/'
-# cocoGt_path         = '/home/public/IRDST/annotations/instances_test2017.json'
-# dataset_img_path    = '/home/public/IRDST/'
+# cocoGt_path         = '/home/public/DAUB/test.json'
+# dataset_img_path    = '/home/public/DAUB/'
+# cocoGt_path         = '/home/public/IRDST-H/test.json'
+# dataset_img_path    = '/home/public/IRDST-H/'
+
 temp_save_path      = 'map_out/coco_eval'
 
 class MAP_vid(object):
     _defaults = {
         
-        "model_path"        : '/home/MoPKL/logs/pre-trained_weights_ITSDT.pth',
+        "model_path"        : '/home/chenshengjia/iMoPKL/logs/ITSDT_80.67_90.35',
         "classes_path"      : 'model_data/classes.txt',
         "input_shape"       : [512, 512],
         "phi"               : 's',
         "confidence"        : 0.5,
         "nms_iou"           : 0.3,
-        "letterbox_image"   : True,
+        "letterbox_image"   : True, 
         "cuda"              : True,
     }
 
@@ -57,7 +60,7 @@ class MAP_vid(object):
 
     def generate(self, onnx=False):
         
-        self.net    = MoPKL(self.num_classes, num_frame=5) 
+        self.net    = MoPKL(self.num_classes, num_frame=2) 
         device      = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.net.load_state_dict(torch.load(self.model_path, map_location=device))
         self.net    = self.net.eval()
@@ -110,7 +113,7 @@ def get_history_imgs(line):
     file_type = line.split('.')[-1]
     index = int(line.split('/')[-1][:-4])
      
-    return [os.path.join(dir_path,  "%d.%s" % (max(id, 0),file_type)) for id in range(index - 4, index + 1)] 
+    return [os.path.join(dir_path,  "%d.%s" % (max(id, 0),file_type)) for id in range(index - 1, index + 1)] 
     
     
 
