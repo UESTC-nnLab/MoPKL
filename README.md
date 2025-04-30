@@ -97,7 +97,7 @@ self.motion_re_idx = np.array(list(relation.values()))
 ```
 
 
-### Train
+### Training
 - Note: Please use different `dataloader` for different datasets. For example, to train the model on ITSDT dataset, enter the following command: 
 ```python
 CUDA_VISIBLE_DEVICES=0 python train_ITSDT.py 
