@@ -29,48 +29,6 @@ def preprocess(image):
 def rand(a=0, b=1):
         return np.random.rand()*(b-a) + a
 
-def augmentation(images, boxes,h, w, hue=.1, sat=0.7, val=0.4):
-    # images [5, w, h, 3], bbox [:,4]
-    #------------------------------------------#
-    #   翻转图像
-    #------------------------------------------#
-    filp = rand()<.5
-    if filp:
-        for i in range(len(images)):
-            images[i] = Image.fromarray(images[i].astype('uint8')).convert('RGB').transpose(Image.Transpose.FLIP_LEFT_RIGHT)
-        for i in range(len(boxes)):
-            boxes[i][[0,2]] = w - boxes[i][[2,0]]
-
-    images      = np.array(images, np.uint8)
-    #---------------------------------#
-    #   对图像进行色域变换
-    #   计算色域变换的参数
-    #---------------------------------#
-    r               = np.random.uniform(-1, 1, 3) * [hue, sat, val] + 1
-    #---------------------------------#
-    #   将图像转到HSV上
-    #---------------------------------#
-    for i in range(len(images)):
-        hue, sat, val   = cv2.split(cv2.cvtColor(images[i], cv2.COLOR_RGB2HSV))
-        dtype           = images[i].dtype
-        #---------------------------------#
-        #   应用变换
-        #---------------------------------#
-        x       = np.arange(0, 256, dtype=r.dtype)
-        lut_hue = ((x * r[0]) % 180).astype(dtype)
-        lut_sat = np.clip(x * r[1], 0, 255).astype(dtype)
-        lut_val = np.clip(x * r[2], 0, 255).astype(dtype)
-
-        images[i] = cv2.merge((cv2.LUT(hue, lut_hue), cv2.LUT(sat, lut_sat), cv2.LUT(val, lut_val)))
-        images[i] = cv2.cvtColor(images[i], cv2.COLOR_HSV2RGB)
-
-    return np.array(images,dtype=np.float32), np.array(boxes,dtype=np.float32)
-
-
-
-
-
-
 class seqDataset(Dataset):
     def __init__(self, dataset_path, image_size, num_frame=5 ,type='train'):
         super(seqDataset, self).__init__()
@@ -120,7 +78,7 @@ class seqDataset(Dataset):
         
 
         if self.type == 'train':
-            caption_data,relation = self.get_caption_data(index) #################
+            caption_data,relation = self.get_caption_data(index) 
             multi_box = self.get_boxes_data(index)
             for box in multi_box: 
                 if len(box) != 0:
@@ -134,9 +92,8 @@ class seqDataset(Dataset):
         relation = np.array(relation)
         # caption_data = np.array(caption)
         # print(caption_data)
-        return images, box, caption_data, multi_box, relation #################
+        return images, box, caption_data, multi_box, relation 
 
-    ###################################################
     def get_caption_data(self, index):
         file_name = self.img_idx[index]
         caption_frames = []
@@ -166,7 +123,6 @@ class seqDataset(Dataset):
         with open(self.txt_path) as f:
             data_lines = f.readlines()
     
-        # 遍历每个时间步（帧）
         for id in range(self.num_frame):
             idx = max(index - id, 0)
             line = data_lines[idx].strip().split()
@@ -175,68 +131,19 @@ class seqDataset(Dataset):
             else:
                 label_data = np.empty((0, 5))
             
-            # 对最新一帧（id==0）的标注数据做处理
+            
             if label_data.size > 0:
-            #     # np.random.shuffle(label_data)
                 label_data[:, [0, 2]] = label_data[:, [0, 2]] * nw / iw + dx
                 label_data[:, [1, 3]] = label_data[:, [1, 3]] * nh / ih + dy
             
-                        # 限制标注框在图像内部
                 label_data[:, 0:2][label_data[:, 0:2] < 0] = 0
                 label_data[:, 2][label_data[:, 2] > w] = w
                 label_data[:, 3][label_data[:, 3] > h] = h
-    
-                # 丢弃无效的框
-                # box_w = label_data[:, 2] - label_data[:, 0]
-                # box_h = label_data[:, 3] - label_data[:, 1]
-                # label_data = label_data[np.logical_and(box_w > 1, box_h > 1)]
             
             boxes_frames.append(label_data)
         
-        # 反转帧顺序后返回一个列表，每个元素都是 float32 类型的 numpy 数组
         boxes_frames = [np.array(b, dtype=np.float32) for b in boxes_frames[::-1]]
-        # print('~~~~~~~~', file_name, boxes_frames)
         return boxes_frames
-
-
-        
-    # def get_boxes_data(self, index):
-    #     file_name = self.img_idx[index]
-    #     image_id = int(file_name.split("/")[-1][:-4])
-    #     image_path = file_name.replace(file_name.split("/")[-1], '')
-    #     img = Image.open(image_path +'%d.bmp' % image_id)
-    #     h, w = self.image_size, self.image_size
-    #     iw, ih = img.size
-    #     scale = min(w/iw, h/ih)
-    #     nw = int(iw*scale)
-    #     nh = int(ih*scale)
-    #     dx = (w-nw)//2
-    #     dy = (h-nh)//2
-    #     boxes_frames = []
-    #     # 由于 self.img_idx 和 self.anno_idx 顺序对应，可直接用 index
-    #     for id in range(0, self.num_frame):
-    #         idx = max(index - id, 0)
-    #         label_data = self.anno_idx[idx]
-    #         # if len(label_data) > 0:
-    #             # np.random.shuffle(label_data)
-    #         label_data[:, [0, 2]] = label_data[:, [0, 2]]*nw/iw + dx
-    #         label_data[:, [1, 3]] = label_data[:, [1, 3]]*nh/ih + dy
-                
-    #         label_data[:, 0:2][label_data[:, 0:2]<0] = 0
-    #         label_data[:, 2][label_data[:, 2]>w] = w
-    #         label_data[:, 3][label_data[:, 3]>h] = h
-    #             # discard invalid box
-    #         box_w = label_data[:, 2] - label_data[:, 0]
-    #         box_h = label_data[:, 3] - label_data[:, 1]
-    #         label_data = label_data[np.logical_and(box_w>1, box_h>1)] 
-            
-    #         boxes_frames.append(label_data)
-    #     boxes_frames = [np.array(b, dtype=np.float32) for b in boxes_frames[::-1]]
-    #     print('~~~~~~~~',file_name, boxes_frames)
-        
-    #     return boxes_frames
-        
-    ###################################################
 
     
     def get_data(self, index):

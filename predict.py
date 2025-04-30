@@ -19,7 +19,7 @@ from utils.utils_bbox import decode_outputs, non_max_suppression
 class Pred_vid(object):
     _defaults = {
         
-        "model_path"        : '/home/chenshengjia/iMoPKL/logs/ITSDT-80.67-90.35/80.67_90.35_ep014-loss3.115-val_loss4.033.pth',
+        "model_path"        : '/home/chenshengjia/iMoPKL/logs/ITSDT_80.67_90.35.pth',
         "classes_path"      : 'model_data/classes.txt',
         "input_shape"       : [512, 512],
         "phi"               : 's',
