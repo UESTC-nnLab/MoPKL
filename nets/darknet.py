@@ -145,10 +145,29 @@ class CSPDarknet(nn.Module):
         x = self.stem(x)
         outputs["stem"] = x
         x = self.dark2(x)
+
+        # # ###################################
+        # import cv2
+        # import numpy as np
+        # features = x
+        # heatmap = torch.sum(features, dim=1)
+        # max_value = torch.max(heatmap)
+        # min_value = torch.min(heatmap)
+        # heatmap = (heatmap-min_value)/(max_value-min_value)*255
+        # heatmap = heatmap.cpu().numpy().astype(np.uint8).transpose(1,2,0)
+        # src_size = (512,512)
+        # heatmap = cv2.resize(heatmap, src_size,interpolation=cv2.INTER_LINEAR)
+        # heatmap=cv2.applyColorMap(heatmap,cv2.COLORMAP_JET)
+        # #cv2.imshow('heatmap',heatmap)
+        # cv2.imwrite('/home/chenshengjia/MoPKL/vis.png', heatmap)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
+        # # ###################################
+            
         outputs["dark2"] = x
         x = self.dark3(x)
         outputs["dark3"] = x
-        x = self.dark4(x)
+        x = self.dark4(x) 
         outputs["dark4"] = x
         x = self.dark5(x)
         outputs["dark5"] = x

@@ -9,7 +9,7 @@ def fit_one_epoch(model_train, model, ema, yolo_loss, loss_history, eval_callbac
     loss        = 0
     val_loss    = 0
 
-    epoch_step = epoch_step // 5
+    epoch_step = epoch_step // 5 
     
     if local_rank == 0:
         print('Start Train')
@@ -18,18 +18,27 @@ def fit_one_epoch(model_train, model, ema, yolo_loss, loss_history, eval_callbac
     for iteration, batch in enumerate(gen):
         if iteration >= epoch_step:
             break
-        images, targets, captions = batch[0], batch[1], batch[2]
+
+        images, targets, captions, multi_targets, relation = batch[0], batch[1], batch[2], batch[3], batch[4]
         with torch.no_grad():
             if cuda:
                 images  = images.cuda(local_rank)
                 targets = [ann.cuda(local_rank) for ann in targets]
                 captions = torch.tensor(np.array(captions))
                 captions  = captions.cuda(local_rank)
-        
+                relation = torch.tensor(np.array(relation))
+                relation = relation.cuda(local_rank)
+                
+                for target in multi_targets:
+                    target = [torch.from_numpy(ann).type(torch.FloatTensor) for ann in target]
+                    target = [ann.cuda(local_rank) for ann in target]
+
         optimizer.zero_grad()
-        if not fp16:
-            outputs = model_train(images, captions)
-            loss_value = yolo_loss(outputs, targets)
+        if not fp16:   
+            
+            outputs, motion_loss = model_train(images, captions, multi_targets, relation)
+            loss_value = yolo_loss(outputs, targets) + motion_loss
+
             loss_value.backward()
             optimizer.step()
         else:
@@ -66,6 +75,7 @@ def fit_one_epoch(model_train, model, ema, yolo_loss, loss_history, eval_callbac
         if iteration >= epoch_step_val:
             break
         images, targets = batch[0], batch[1]
+
         with torch.no_grad():
             if cuda:
                 images  = images.cuda(local_rank)
@@ -73,6 +83,7 @@ def fit_one_epoch(model_train, model, ema, yolo_loss, loss_history, eval_callbac
 
             optimizer.zero_grad()
             outputs = model_train_eval(images)
+            
             loss_value = yolo_loss(outputs, targets)
 
         val_loss += loss_value.item()
