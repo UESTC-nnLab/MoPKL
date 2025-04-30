@@ -130,7 +130,7 @@ mode = "predict"  # Predict a single-frame image
 python predict.py
 ```
 
-## Parameters and FLOPs Calculation
+### Parameters and FLOPs Calculation
 ```python
 python summary.py
 ```
