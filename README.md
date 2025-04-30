@@ -185,7 +185,7 @@ python summary.py
 - PR curves on ITSDT-15K and IRDST datasets in this paper.
 
 
-<img src="/README/PR.png" width="700px">
+<img src="/README/PR.png" width="600px">
 
 
 ## Contact
