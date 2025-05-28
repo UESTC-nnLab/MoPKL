@@ -83,7 +83,7 @@ self.motion_cap_idx = np.array(list(description.values()))
 self.motion = MotionModel(text_input_dim=130*300, latent_dim=128, hidden_dim=1024)
 ```
 
-- We provide encoded the [motion relations](https://pan.baidu.com/s/1BpSeFZQjR3KbcLKwuD7dgg?pwd=45c6)(code: 45c6) of the `motion relations` for `ITSDT-15K`, `DAUB-R` and `IRDST-H` datasets. 
+- We provide the encoded [tensor](https://pan.baidu.com/s/1BpSeFZQjR3KbcLKwuD7dgg?pwd=45c6)(code: 45c6) of the `motion relations` for `ITSDT-15K`, `DAUB-R` and `IRDST-H` datasets. 
 There are three embedded representations in this file: `motion_relation_ITSDT.pkl`, `motion_relation_DAUB.pkl` and `motion_relation_IRDST-H.pkl`.
 
 - Take the ITSDT-15K dataset as an example, modify the path of the `dataloader_for_ITSDT` for language description embedding representations:
