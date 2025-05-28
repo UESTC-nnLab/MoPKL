@@ -60,10 +60,10 @@ ITSDT
 
 ### Language Descriptions
 
-- We provide encoded the [embedding representations](https://pan.baidu.com/s/18gA0735vQO_vnFHvuQmD3Q?pwd=fmag)(code: fmag) of the language descriptions for `ITSDT-15K`, `DAUB-R` and `IRDST-H` datasets. 
+- We provide the encoded [embedding representations](https://pan.baidu.com/s/18gA0735vQO_vnFHvuQmD3Q?pwd=fmag)(code: fmag) of the language descriptions for `ITSDT-15K`, `DAUB-R` and `IRDST-H` datasets. 
 There are three embedded representations in this file: `emb_train_ITSDT.pkl`, `emb_train_DAUB.pkl` and `emb_train_IRDST-H.pkl`.
 
-- We also provide initial language description [text files](https://pan.baidu.com/s/1-IIlc527SMDXrHQ-RMqZig?pwd=yuy3)(code: yuy3) that you can explore further with vision-language models.
+- We also provide initial the language description [text files](https://pan.baidu.com/s/1-IIlc527SMDXrHQ-RMqZig?pwd=yuy3)(code: yuy3) that you can explore further with vision-language models.
 
 - Take the ITSDT-15K dataset as an example, modify the path of the `dataloader_for_ITSDT` for language description embedding representations:
 ```python
