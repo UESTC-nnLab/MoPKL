@@ -99,7 +99,7 @@ if __name__ == "__main__":
         if local_rank == 0:
             print("\nSuccessful Load Key:", str(load_key)[:500], "……\nSuccessful Load Key Num:", len(load_key))
             print("\nFail To Load Key:", str(no_load_key)[:500], "……\nFail To Load Key num:", len(no_load_key))
-            print("\n\033[1;33;44m温馨提示，head部分没有载入是正常现象，Backbone部分没有载入是错误的。\033[0m")
+            print("\n\033[1;33;44m温馨提示，部分参数没有载入是正常现象，这里只使用了预训练模型的部分参数权重。\033[0m")
 
     yolo_loss    = YOLOLoss(num_classes, fp16, strides=[8])
    
