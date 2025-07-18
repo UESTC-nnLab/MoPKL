@@ -182,7 +182,8 @@ python summary.py
 
 
 
-- PR curves on ITSDT-15K, DAUB-R and IRDST-H datasets in this paper.
+- PR curves on `ITSDT-15K`, `DAUB-R` and `IRDST-H` datasets in this paper. 
+- We also provided the result [files](https://pan.baidu.com/s/1Z8YSNDS0iHAg10UT9FpZ3w?pwd=2544)(code:2544) for these PR curves, so you can directly plot curves yourself.
 
 
 <img src="PR.png" width="800px">
