@@ -203,6 +203,15 @@ If any questions, kindly contact with Shengjia Chen via e-mail: csj_uestc@126.co
 If you find this repo useful, please cite our paper. 
 
 ```
+@ARTICLE{CheniMoPKL2025,
+  author={Chen, Shengjia and Ji, Luping and Peng, Shuang and Zhu, Sicheng and Ye, Mao and Sang, Yongsheng},
+  journal={IEEE Transactions on Geoscience and Remote Sensing}, 
+  title={Language-Driven Motion Prior Knowledge Learning for Moving Infrared Small Target Detection}, 
+  year={2025},
+  volume={63},
+  pages={1-14},
+  doi={10.1109/TGRS.2025.3596902}}
+
 @inproceedings{ChenMoPKL2025,
   title={{Motion Prior Knowledge Learning with Homogeneous Language Descriptions for Moving Infrared Small Target Detection}},
   author={Chen, Shengjia and Ji, Luping and Duan, Weiwei and Peng, Shuang and Ye, Mao},
