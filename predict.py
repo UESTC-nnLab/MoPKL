@@ -51,7 +51,7 @@ class Pred_vid(object):
         show_config(**self._defaults)
 
     def generate(self, onnx=False):
-        self.net    = MoPKL(self.num_classes, num_frame=5)
+        self.net    = MoPKL(self.num_classes, num_frame=2)
         device      = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.net.load_state_dict(torch.load(self.model_path, map_location=device))
         self.net    = self.net.eval()
