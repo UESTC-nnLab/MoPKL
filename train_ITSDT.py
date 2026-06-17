@@ -25,7 +25,7 @@ if __name__ == "__main__":
     sync_bn         = False
     fp16            = False
     classes_path    = 'model_data/classes.txt'
-    model_path      = 'model_data/pre_trained.pth'
+    model_path      = 'model_data/pre_trained_backbone.pth'
     input_shape     = [512, 512]
     phi             = 's'
     mosaic              = False
